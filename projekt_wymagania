@@ -1,0 +1,19 @@
+1. Przygotować 6-8 tabel w Oracle SQL Developer Data
+Modeler
+2. Wygenerować kod dla SQL Server 
+3. Utworzyć bazę na podstawie wygenerowanego kodu
+w SQl Server
+4. Zademnstrować indeksy klastrowe i nieklastrowe.
+5. Pokazać jak użycie indeksu może zredukować
+liczbę odczytywanych stron i wpłynšć na plan
+wykonania zapytania.
+Patrz http://math.uni.lodz.pl/~bleja/sb-new/indeksy_03_03_2019.sql
+6. Stworzyć kilka procedur (z try-catch, obsługš transakcji, sekwencjami) i funkcji (scalar functions),
+multi-statement valued function, inline valued functions)
+Patrz http://math.uni.lodz.pl/~bleja/sb-new/Stored_procedures_03_03_2019.sql
+http://math.uni.lodz.pl/~bleja/sb-new/Table_valued_functions_03_03_2019.sql
+7. Utworzyć przykładowe widoki oraz widoki indeksowane
+Patrz http://math.uni.lodz.pl/~bleja/sb-new/WIDOKI_INDEKSOWANE.sql
+Patrz https://docs.microsoft.com/en-us/sql/relational-databases/views/create-indexed-views?view=sql-server-2017
+8. Utworzyć tabele partycjonowane
+Patrz http://math.uni.lodz.pl/~bleja/sb-new/partycje.sql
