@@ -93,5 +93,32 @@ insert into users (id, name, last_name, nationality, email, mobile_number) value
 									          (7, 'Sylwester', 'Brown', 'US', 'sylbrown@gmail.com', 987345321);
 end
 go;
-																			  end;
+
+	
+USE [Projekt Bazy Danych]
+GO
+/****** Object:  StoredProcedure [dbo].[fillAccounts]    Script Date: 17.04.2019 11:35:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER procedure [dbo].[fillAccounts]
+as
+begin
+insert into accounts (balance, currency, margin_level, users_id) values (10000,'GBP',1500,1),
+									(1500,'GBP',1500,1),
+									(2053,'GBP',200,2),
+									(21344,'GBP',200,2),
+									(12231,'USD',140,3),
+									(1234,'USD',140,3),
+									(4432,'PLN',350,4),
+									(665789,'PLN',350,4),
+									(12355,'PLN',432,5),
+									(6654,'PLN',432,5),
+									(9887,'PLN',223,6),
+									(90009,'PLN',223,6),
+									(34908,'USD',105,7),
+									(1251,'USD',105,7);
+end
+go;
 
