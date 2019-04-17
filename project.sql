@@ -70,6 +70,28 @@ insert into candles ("Date", High, Low, "Open", "Close", SYMBOLS_ID, INTERVALS_I
 drop table #tempCandles;
 end
 go;
-
+	
 exec fillSymbolsAndIntervals
 exec fillCandles 'EURUSD', 'M1', 'C:\Users\barto\Downloads\EURUSD_Candlestick_1_m_BID_30.03.2019-30.03.2019.csv' 
+	
+USE [Projekt Bazy Danych]
+GO
+/****** Object:  StoredProcedure [dbo].[fillUsers]    Script Date: 17.04.2019 11:24:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER procedure [dbo].[fillUsers]
+as
+begin
+insert into users (id, name, last_name, nationality, email, mobile_number) values (1, 'John', 'Murphy', 'UK', 'john.murphy@gmail.com', 708936172),
+										  (2, 'Tom', 'Smith', 'UK', 'tom.smith@gmail.com', 564729462),
+										  (3, 'Erinn', 'McBride', 'US', 'er.mcbrude@gmail.com', 123321123),
+									          (4,'Jan', 'Kowal', 'PL', 'janek.kow@gmail.com', 768764532),
+										  (5, 'Robert', 'Walus', 'PL', 'robi321@gmail.com', 672087213),
+										  (6, 'Agnieszka', 'Walek', 'PL', 'aga.wal@gmail.com', 305927591),
+									          (7, 'Sylwester', 'Brown', 'US', 'sylbrown@gmail.com', 987345321);
+end
+go;
+																			  end;
+
