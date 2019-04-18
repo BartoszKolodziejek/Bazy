@@ -50,8 +50,9 @@ CREATE TABLE orders
     id     INTEGER NOT NULL IDENTITY(1,1),
     type   VARCHAR (10), 
      Date DATETIME , 
-     Stop_Loss MONEY , 
-     Take_Profit MONEY , 
+     Stop_Loss decimal(20,5) , 
+     Take_Profit decimal(20,5) ,
+	 price decimal(20,5),
      ACCOUNTS_ID INTEGER NOT NULL , 
      SYMBOLS_ID INTEGER NOT NULL );
 
@@ -80,7 +81,7 @@ ALTER TABLE POSITIONS ADD constraint positions_pk PRIMARY KEY CLUSTERED (ID)
 CREATE TABLE symbols (
     id           INTEGER NOT NULL IDENTITY(1,1),
     name         VARCHAR(10),
-    pips_value   money
+    pips_value   decimal(20,5)
 );
 ALTER TABLE SYMBOLS ADD constraint symbols_pk PRIMARY KEY CLUSTERED (ID)
      WITH (
@@ -135,6 +136,14 @@ ALTER TABLE POSITIONS
         REFERENCES orders ( id )
 ON DELETE NO ACTION 
     ON UPDATE no action 
+
+CREATE SEQUENCE postion_sequence  
+    START WITH 1036
+    INCREMENT BY 1 ;  
+
+CREATE SEQUENCE order_sequence  
+    START WITH 82342
+    INCREMENT BY 1 ;  
 
 
 
