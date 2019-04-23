@@ -1,0 +1,85 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="A7DBDB16-0BEA-1E87-78EC-6A56EAD7A380" name="POSITIONS">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:44:56 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID" id="588C616E-2006-7D48-3AD7-3BADBEF57BD4">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:59:41 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Date" id="55FE3C29-FB33-49FF-5496-E54761B78179">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:59:51 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT046</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Status" id="16485E4E-D524-50DF-583B-0E50642A9D5D">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:00:01 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT020</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID1" id="2BEF8262-282D-1716-22D6-8B7BC7ADB90B">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:08:57 UTC</createdTime>
+<generatorID>3031FAEC-67E1-5362-D262-FE286F31ADD5</generatorID>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<referedAttribute>204C6ACB-807C-B0C3-C94C-5D7026C0C541</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="DACB2919-89DB-C436-0932-0210D599B7A1" name="POSITIONS PK">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:59:44 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>588C616E-2006-7D48-3AD7-3BADBEF57BD4</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Relation_7" directorySegmentName="seg_0" id="58B70A81-F63C-2431-4985-24E46541BB86">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:11:19 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<sourcePk>9C20F0CF-088B-475C-9AF2-44EC4091805B</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>FAF28818-AF18-2DCB-C84C-E2EDDEAD40D8</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>9C558777-F859-0CBD-2BB0-89F83EA933F7</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

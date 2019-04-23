@@ -1,0 +1,110 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="A6419408-C8DF-2EC0-E8C6-07E6602612BA" name="USERS">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:44:23 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID" id="C4810C3D-260A-4792-9293-92818F168747">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:48:50 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Name" id="74174C41-7B61-160E-2C02-15E1D9C7BB39">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:49:07 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Last Name" id="85AC7349-2548-5325-9189-D4248210B687">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:49:31 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Nationality" id="C0A995D4-1B8C-7F9F-F9DC-D71CB679DFC2">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:49:43 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Email" id="6CF36A01-1815-7AA6-F6B6-B189E1C9D732">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:50:02 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Mobile Number" id="39E3EF8A-BE04-7F2D-97AF-532120ECD61A">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:50:19 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="B96F2A20-AC3C-C8D6-8F9A-EF4E0EF91338" name="USERS PK">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:49:03 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>C4810C3D-260A-4792-9293-92818F168747</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

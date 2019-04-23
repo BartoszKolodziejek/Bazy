@@ -1,0 +1,97 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="A9F39280-8760-77A8-2BCC-B53A0BF72F86" name="USERS">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:12:38 UTC</createdTime>
+<generatorID>A6419408-C8DF-2EC0-E8C6-07E6602612BA</generatorID>
+<ownerDesignName>data</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID" id="9DCDA675-BADC-E60E-B3B9-4F3648C787F2">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:12:38 UTC</createdTime>
+<generatorID>C4810C3D-260A-4792-9293-92818F168747</generatorID>
+<ownerDesignName>data</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Name" id="955710A7-1A62-0E85-B0C2-117C79E41884">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:12:38 UTC</createdTime>
+<generatorID>74174C41-7B61-160E-2C02-15E1D9C7BB39</generatorID>
+<ownerDesignName>data</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Last_Name" id="F24FE5C6-FD63-368F-3935-94678C793046">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:12:38 UTC</createdTime>
+<generatorID>85AC7349-2548-5325-9189-D4248210B687</generatorID>
+<ownerDesignName>data</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Nationality" id="C601DB4C-9D4E-E6CC-E0E7-BEB9EDF25D97">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:12:38 UTC</createdTime>
+<generatorID>C0A995D4-1B8C-7F9F-F9DC-D71CB679DFC2</generatorID>
+<ownerDesignName>data</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Email" id="D1BF169C-1958-40D8-6C67-84EAD25AC957">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:12:38 UTC</createdTime>
+<generatorID>6CF36A01-1815-7AA6-F6B6-B189E1C9D732</generatorID>
+<ownerDesignName>data</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Mobile_Number" id="F272B3A0-92E6-8F6E-33C8-3329342B97BF">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:12:38 UTC</createdTime>
+<generatorID>39E3EF8A-BE04-7F2D-97AF-532120ECD61A</generatorID>
+<ownerDesignName>data</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C444F3B8-7741-2964-0351-79A2206A0429" name="USERS_PK">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:12:38 UTC</createdTime>
+<generatorID>B96F2A20-AC3C-C8D6-8F9A-EF4E0EF91338</generatorID>
+<ownerDesignName>data</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9DCDA675-BADC-E60E-B3B9-4F3648C787F2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

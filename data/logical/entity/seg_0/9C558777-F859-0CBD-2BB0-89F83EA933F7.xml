@@ -1,0 +1,126 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="9C558777-F859-0CBD-2BB0-89F83EA933F7" name="ORDERS">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:43:52 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID" id="204C6ACB-807C-B0C3-C94C-5D7026C0C541">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:57:56 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Type" id="97BD4492-9B04-014A-22B5-B20906AEE2CA">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:58:05 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Date" id="8DB3DE28-7B59-5DC7-1563-E16F9B0E347F">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:58:13 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT046</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Stop Loss" id="17031FF5-8F81-2B22-8971-4BDA7E0F3374">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:58:30 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Take Profit" id="DF6A07B6-6DC6-FF66-D866-730769B1A371">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:59:05 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID1" id="72D4A45A-6166-ED9C-6519-7AFF93B28AD5">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:08:32 UTC</createdTime>
+<generatorID>06E20A5C-E222-7672-B0DD-8A2E7CE024CB</generatorID>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<referedAttribute>42DB719D-1D04-9859-0377-A588C91054CF</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID2" id="82D95BBF-D25B-218D-9CBB-EB53618F4D11">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:11:19 UTC</createdTime>
+<generatorID>58B70A81-F63C-2431-4985-24E46541BB86</generatorID>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<referedAttribute>CB4CB653-C3BD-BB91-2C8E-B576D17F8927</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="8F679E45-F096-6EF6-913F-BE2BB29A2D16" name="ORDERS PK">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:57:59 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>204C6ACB-807C-B0C3-C94C-5D7026C0C541</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

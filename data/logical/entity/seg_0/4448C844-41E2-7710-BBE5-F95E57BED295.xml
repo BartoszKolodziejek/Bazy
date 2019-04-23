@@ -1,0 +1,138 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="4448C844-41E2-7710-BBE5-F95E57BED295" name="CANDLES">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:47:27 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID" id="DFDBEA1E-61B8-75AC-7CA8-542AB4B45FBE">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:56:32 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Low" id="0FDD839E-8E90-7786-3157-E340458509DD">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:56:41 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT043</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="High" id="9FB86166-B585-25AA-2D92-E22490987819">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:57:03 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT043</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Open" id="7E05FC5E-3A0A-0638-3E62-0004D0AFB91C">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:57:12 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT043</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Close" id="8D77DDFD-0ECF-9248-7A15-3EFB4EDC1B15">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:57:26 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT043</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Date" id="A7D201FA-AB7D-555B-F7C3-97EF919C3F2B">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:57:33 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT046</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID1" id="23A6416A-B899-E452-FCD4-864D05856F1E">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:09:34 UTC</createdTime>
+<generatorID>3BEC5F1A-4631-5319-C0D7-F40072507B5B</generatorID>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<referedAttribute>CB4CB653-C3BD-BB91-2C8E-B576D17F8927</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID2" id="F3A10333-4810-3388-813C-2B76E641A4CB">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:10:35 UTC</createdTime>
+<generatorID>D0DBBFEF-907C-2060-5CB9-78CFDD12123B</generatorID>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<referedAttribute>71D961BD-CF90-7736-1E13-903361D4AFF5</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="00964954-3E36-B9A6-9514-518A50A42CC0" name="CANDLES PK">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 18:56:34 UTC</createdTime>
+<ownerDesignName>data</ownerDesignName>
+<engineerTo>
+<item key="1529318F-E67E-C720-01E3-9A4875D5CC72" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>DFDBEA1E-61B8-75AC-7CA8-542AB4B45FBE</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

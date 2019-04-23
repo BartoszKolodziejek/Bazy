@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="F32F1BDE-33F3-7DE1-34D5-905E267ACA59" containerWithKeyObject="A4469D99-9E88-A059-CC68-C36C0FFE47FB" localFKIndex="753CEF47-7EF7-2522-B424-9A034158DA02" name="CANDLES_INTERVALS_FK">
+<createdBy>Morgrim</createdBy>
+<createdTime>2019-03-02 19:12:38 UTC</createdTime>
+<generatorID>D0DBBFEF-907C-2060-5CB9-78CFDD12123B</generatorID>
+<ownerDesignName>data</ownerDesignName>
+<referredTableLongName>INTERVALS</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>85A5015A-DE95-627E-FB4C-3B138F74F126</referredTableID>
+<keyObject>D28336FA-2DF7-0C71-3C44-DE3413645F6B</keyObject>
+<referredKeyID>D28336FA-2DF7-0C71-3C44-DE3413645F6B</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>
