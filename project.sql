@@ -159,26 +159,34 @@ ALTER procedure makeOrder
 @price decimal(20, 5)
 as
 begin
-begin try
 declare @symbol_id integer
 select @symbol_id = id 
 from symbols
 where name like @symbol;
 declare @lastCandleClose decimal (20, 5);
-					select @lastCandleClose = "close" from ( 
-					select MAX(id) last_id from candles) max_id
-					join candles on max_id.last_id = candles.id;
-if (@type = 'BUYSTOP' or  @type = 'SELLLIMIT' or @type = 'SELL') and @price <  @lastCandleClose 
+SELECT  @lastCandleClose = "Close"
+     FROM  candles 
+         JOIN (SELECT Max(id) 
+         last_id 
+         FROM   candles 
+         GROUP  BY symbols_id) 
+         maxIds 
+         ON maxIds.last_id = candles.id
+		 join symbols on symbols.id = candles.SYMBOLS_ID
+		 where symbols.name = @Symbol
+if  (@type = 'SELL' or @type = 'BUY')
+insert into orders(type, Date, Stop_Loss, Take_Profit, price, ACCOUNTS_ID, SYMBOLS_ID) 
+values (@type, @Date, @StopLoss, @TakeProfit, @lastCandleClose, @AccountId, @symbol_id)
+else 
+begin
+if (@type = 'BUYSTOP' or  @type = 'SELLLIMIT') and @price is not null and @price <  @lastCandleClose 
 raiserror('couldn`t make order', 20, -1) with log;
-if (@type = 'BUYLIMIT' or @type = 'SELLSTOP' or @type = 'BUY') and @price >  @lastCandleClose 
+if (@type = 'BUYLIMIT' or @type = 'SELLSTOP') and @price is not null and @price >  @lastCandleClose 
 raiserror('couldn`t make order', 20, -1) with log;
-insert into orders values (@type, @Date, @StopLoss, @TakeProfit, @price, @AccountId, @symbol_id)
-end try
-begin catch
-print 'couldn`t make order'
-end catch
+insert into orders (type, Date, Stop_Loss, Take_Profit, price, ACCOUNTS_ID, SYMBOLS_ID) 
+values (@type, @Date, @StopLoss, @TakeProfit, @price, @AccountId, @symbol_id)
 end
-go;
+end;
 
 ALTER PROCEDURE UpdatePositions 
 AS 
@@ -307,7 +315,7 @@ begin
 				insert into Forex.dbo.positions (id, "Date", "Status", "ORDERS_ID")
 							select NEXT VALUE FOR postion_sequence, @now, (price- lastClose."Close")* 1 / symbols.pips_value, orders.id
 					from orders 
-					left join positions on positions.id = orders.id
+					left join positions on positions.ORDERS_ID = orders.id
 					JOIN (SELECT "close", 
                                       symbols_id 
                                FROM   candles 
@@ -326,7 +334,7 @@ begin
 				insert into positions (id, "Date", "Status", "ORDERS_ID")
 					select NEXT VALUE FOR postion_sequence, @now, (price- lastClose."Close")* 1 / symbols.pips_value, orders.id
 					from orders 
-					left join positions on positions.id = orders.id
+					left join positions on positions.ORDERS_ID = orders.id
 					JOIN (SELECT "close", 
                                       symbols_id 
                                FROM   candles 
@@ -344,7 +352,7 @@ begin
 			insert into positions (id, "Date", "Status", "ORDERS_ID")
 				select NEXT VALUE FOR postion_sequence, @now, (lastClose."Close" - price)* 1 / symbols.pips_value, orders.id
 					from orders 
-					left join positions on positions.id = orders.id
+					left join positions on positions.ORDERS_ID = orders.id
 					JOIN (SELECT "close", 
                                       symbols_id 
                                FROM   candles 
@@ -362,7 +370,7 @@ begin
 					 insert into positions (id, "Date", "Status", "ORDERS_ID")
 				select NEXT VALUE FOR postion_sequence, @now, (lastClose."Close" - price)* 1 / symbols.pips_value, orders.id
 					from orders 
-					left join positions on positions.id = orders.id
+					left join positions on positions.ORDERS_ID = orders.id
 					JOIN (SELECT "close", 
                                       symbols_id 
                                FROM   candles 
@@ -398,9 +406,9 @@ alter procedure execMarketExecution
 					set @now = GETDATE();
 
 				insert into Forex.dbo.positions (id, "Date", "Status", "ORDERS_ID")
-							select NEXT VALUE FOR postion_sequence, @now, (price- lastClose."Close")* 1 / symbols.pips_value, orders.id
+							select NEXT VALUE FOR postion_sequence, @now, 0, orders.id
 					from orders 
-					left join positions on positions.id = orders.id
+					left join positions on positions.ORDERS_ID = orders.id
 					JOIN (SELECT "close", 
                                       symbols_id 
                                FROM   candles 
@@ -415,9 +423,9 @@ alter procedure execMarketExecution
 					 and positions.id is null
 
 			insert into positions (id, "Date", "Status", "ORDERS_ID")
-				select NEXT VALUE FOR postion_sequence, @now, (lastClose."Close" - price)* 1 / symbols.pips_value, orders.id
+				select NEXT VALUE FOR postion_sequence, @now, 0, orders.id
 					from orders 
-					left join positions on positions.id = orders.id
+					left join positions on positions.ORDERS_ID = orders.id
 					JOIN (SELECT "close", 
                                       symbols_id 
                                FROM   candles 
@@ -439,9 +447,54 @@ alter procedure execMarketExecution
 					throw;
 				END CATCH
 			END
+			
 
-	
+create function getAccountPositions (@accountsId Int)
+returns table
+as
+return
+(
+select positions.id,
+			 positions.Date,
+			 positions.Status, 
+			 orders.Stop_Loss, 
+			 orders.Take_Profit, 
+			 symbols.name from accounts
+			join orders on orders.ACCOUNTS_ID = accounts.id
+			join positions on positions.ORDERS_ID = orders.id
+			join symbols on symbols.id = orders.SYMBOLS_ID
+			where ACCOUNTS_ID = @accountsId)
 
+create function getAccountBalance(@accountsId Int)
+returns decimal(38, 2)
+as
+begin
+declare @balance decimal(38, 2);
+select @balance = accounts.balance from accounts
+where id = @accountsId
+return @balance
+end
+
+
+
+alter function getNumberOrdersOfType(@accountsId Int, @type varchar(10))
+returns @allOrdersTable table
+( number int,
+  Symbol varchar(10)
+)
+as
+begin 
+	if @type in (select "type" from orders where ACCOUNTS_ID = @accountsId )
+	insert into @allOrdersTable 
+	select count(orders.id) number, symbols.name from orders
+	join symbols on symbols.id = Symbols_Id
+	where orders.ACCOUNTS_ID = @accountsId 
+	and orders.type like @type
+	group by symbols.name
+	else
+	insert into @allOrdersTable values (0, 'NONE')
+return
+end
 
   create TRIGGER UpdatePositionsTrigger
   ON candles
@@ -462,7 +515,7 @@ alter procedure execMarketExecution
   end
 
 
-
+  use Forex
 
 delete  from positions
 exec fillSymbolsAndIntervals
@@ -474,8 +527,9 @@ exec [fillUsers]
 exec [fillAccounts]
 DECLARE @tmp DATETIME
 SET @tmp = GETDATE()
-exec makeOrder 'BUY', @tmp, 1.0000, 5.0000, 1, 'EURUSD', null
+exec makeOrder 'SELLSTOP', @tmp, 5.0000, 1.0000, 1, 'EURUSD', 1.00
 SET IDENTITY_INSERT positions ON
+SET IDENTITY_INSERT orders OFF
 exec execStopAndLimits
 exec UpdatePositions
-select * from positions
+use Forex
