@@ -55,12 +55,12 @@ AS
            high     VARCHAR(10) NOT NULL, 
            "open"   VARCHAR(10) NOT NULL, 
            "close"  VARCHAR(10) NOT NULL, 
-           "volume" INTEGER NOT NULL 
+           "volume" VARCHAR(MAX) NOT NULL 
         ); 
 
       DECLARE @sql VARCHAR(max); 
 
-      SET @sql = 'BULK INSERT dbo.[#tempCandles] FROM ''' + @path+'''  WITH ( firstrow = 1,   DATAFILETYPE=''widechar'',  CODEPAGE=65001, FIELDTERMINATOR = '','',   ROWTERMINATOR = ''\n'' );'
+      SET @sql = 'BULK INSERT dbo.[#tempCandles] FROM ''' + @path+'''  WITH ( firstrow = 2,   DATAFILETYPE=''widechar'',  CODEPAGE=65001, FIELDTERMINATOR = '','',   ROWTERMINATOR = ''\n'' );'
 
       EXEC (@sql); 
 
@@ -168,9 +168,9 @@ declare @lastCandleClose decimal (20, 5);
 					select @lastCandleClose = "close" from ( 
 					select MAX(id) last_id from candles) max_id
 					join candles on max_id.last_id = candles.id;
-if (@type = 'BUYSTOP' or  @type = 'SELLLIMIT') and @price <  @lastCandleClose 
+if (@type = 'BUYSTOP' or  @type = 'SELLLIMIT' or @type = 'SELL') and @price <  @lastCandleClose 
 raiserror('couldn`t make order', 20, -1) with log;
-if (@type = 'BUYLIMIT' or @type = 'SELLSTOP') and @price >  @lastCandleClose 
+if (@type = 'BUYLIMIT' or @type = 'SELLSTOP' or @type = 'BUY') and @price >  @lastCandleClose 
 raiserror('couldn`t make order', 20, -1) with log;
 insert into orders values (@type, @Date, @StopLoss, @TakeProfit, @price, @AccountId, @symbol_id)
 end try
@@ -180,7 +180,117 @@ end catch
 end
 go;
 
-create procedure execStopAndLimits
+ALTER PROCEDURE UpdatePositions 
+AS 
+  BEGIN 
+      BEGIN try 
+          BEGIN TRANSACTION 
+		            DELETE FROM positions 
+          WHERE  positions.id = ANY (SELECT positions.id 
+                                     FROM   positions 
+                                            JOIN orders 
+                                              ON orders.id = positions.orders_id 
+                                            JOIN (SELECT "close", 
+                                                         symbols_id 
+                                                  FROM   candles 
+                                                         JOIN (SELECT Max(id) 
+                                                              last_id 
+                                                               FROM   candles 
+                                                 GROUP  BY symbols_id) 
+                                                              maxIds 
+                                                           ON maxIds.last_id = 
+                                                              candles.id) 
+                                                 lastClose 
+                                              ON lastClose.symbols_id = 
+                                                 orders.symbols_id 
+                                            JOIN symbols 
+                                              ON symbols.id = orders.symbols_id 
+                                     WHERE  type LIKE '%BUY%' 
+                                            AND "stop_loss" > "close") 
+
+          DELETE FROM positions 
+          WHERE  positions.id = ANY (SELECT positions.id 
+                                     FROM   positions 
+                                            JOIN orders 
+                                              ON orders.id = positions.orders_id 
+                                            JOIN (SELECT "close", 
+                                                         symbols_id 
+                                                  FROM   candles 
+                                                         JOIN (SELECT Max(id) 
+                                                              last_id 
+                                                               FROM   candles 
+                                                 GROUP  BY symbols_id) 
+                                                              maxIds 
+                                                           ON maxIds.last_id = 
+                                                              candles.id) 
+                                                 lastClose 
+                                              ON lastClose.symbols_id = 
+                                                 orders.symbols_id 
+                                            JOIN symbols 
+                                              ON symbols.id = orders.symbols_id 
+                                     WHERE  type LIKE '%SELL%' 
+                                            AND "stop_loss" < "close") 
+
+
+          UPDATE positions 
+          SET    positions."status" = currentStatusSelect.currentstatus 
+          FROM   (SELECT positions.id, 
+                         ( "close" - price ) * 1 / symbols.pips_value 
+                         currentStatus 
+                  FROM   positions 
+                         JOIN orders 
+                           ON orders.id = positions.orders_id 
+                         JOIN (SELECT "close", 
+                                      symbols_id 
+                               FROM   candles 
+                                      JOIN (SELECT Max(id) last_id 
+                                            FROM   candles 
+                                            GROUP  BY symbols_id) maxIds 
+                                        ON maxIds.last_id = candles.id) 
+                              lastClose 
+                           ON lastClose.symbols_id = orders.symbols_id 
+                         JOIN symbols 
+                           ON symbols.id = orders.symbols_id 
+                  WHERE  type LIKE '%BUY%') currentStatusSelect 
+                 JOIN positions 
+                   ON positions.id = currentStatusSelect.id 
+
+          UPDATE positions 
+          SET    positions."status" = currentStatusSelect.currentstatus 
+          FROM   (SELECT positions.id, 
+                         ( price - "close" ) * 1 / symbols.pips_value 
+                         currentStatus 
+                  FROM   positions 
+                         JOIN orders 
+                           ON orders.id = positions.orders_id 
+                         JOIN (SELECT "close", 
+                                      symbols_id 
+                               FROM   candles 
+                                      JOIN (SELECT Max(id) last_id 
+                                            FROM   candles 
+                                            GROUP  BY symbols_id) maxIds 
+                                        ON maxIds.last_id = candles.id) 
+                              lastClose 
+                           ON lastClose.symbols_id = orders.symbols_id 
+                         JOIN symbols 
+                           ON symbols.id = orders.symbols_id 
+                  WHERE  type LIKE '%SELL%') currentStatusSelect 
+                 JOIN positions 
+                   ON positions.id = currentStatusSelect.id 
+
+          COMMIT TRANSACTION 
+      END try 
+
+      BEGIN catch 
+          ROLLBACK TRANSACTION; 
+
+          PRINT 'could not update positions'; 
+
+          THROW; 
+      END catch; 
+  END; 
+
+ALTER procedure execStopAndLimits
 as
 begin
 	if exists (select * from orders where type in ('BUYSTOP', 'SELLSTOP', 'BUYLIMIT', 'SELLLIMIT'))
@@ -193,38 +303,80 @@ begin
 				begin transaction
 					declare @now datetime;
 					set @now = GETDATE();
-					declare @lastCandleClose decimal (20, 5);
-					select @lastCandleClose = "close" from ( 
-					select MAX(id) last_id from candles) max_id
-					join candles on max_id.last_id = candles.id;
-					insert into Forex.dbo.positions (id, "Date", "Status", "ORDERS_ID")
-					select NEXT VALUE FOR postion_sequence, @now, price - @lastCandleClose, orders.id
+
+				insert into Forex.dbo.positions (id, "Date", "Status", "ORDERS_ID")
+							select NEXT VALUE FOR postion_sequence, @now, (price- lastClose."Close")* 1 / symbols.pips_value, orders.id
 					from orders 
 					left join positions on positions.id = orders.id
-					where type like 'SELLLIMIT'
-					 and positions.id is null
-					 and orders.price > @lastCandleClose;
-					 insert into positions (id, "Date", "Status", "ORDERS_ID")
-					select NEXT VALUE FOR postion_sequence, @now, price - @lastCandleClose, orders.id
-					from orders 
-					left join positions on positions.id = orders.id
+					JOIN (SELECT "close", 
+                                      symbols_id 
+                               FROM   candles 
+                                      JOIN (SELECT Max(id) last_id 
+                                            FROM   candles 
+                                            GROUP  BY symbols_id) maxIds 
+                                        ON maxIds.last_id = candles.id) 
+                              lastClose 
+                           ON lastClose.symbols_id = orders.symbols_id 
+					JOIN symbols on symbols.id = orders.SYMBOLS_ID
 					where type like 'SELLSTOP'
 					 and positions.id is null
-					 and orders.price < @lastCandleClose;
-					 insert into positions (id, "Date", "Status", "ORDERS_ID")
-					select NEXT VALUE FOR postion_sequence, @now, @lastCandleClose - price, orders.id
+					 and orders.price < lastClose."Close"
+
+
+				insert into positions (id, "Date", "Status", "ORDERS_ID")
+					select NEXT VALUE FOR postion_sequence, @now, (price- lastClose."Close")* 1 / symbols.pips_value, orders.id
 					from orders 
 					left join positions on positions.id = orders.id
-					where type like 'BUYLIMIT'
+					JOIN (SELECT "close", 
+                                      symbols_id 
+                               FROM   candles 
+                                      JOIN (SELECT Max(id) last_id 
+                                            FROM   candles 
+                                            GROUP  BY symbols_id) maxIds 
+                                        ON maxIds.last_id = candles.id) 
+                              lastClose 
+                           ON lastClose.symbols_id = orders.symbols_id 
+					JOIN symbols on symbols.id = orders.SYMBOLS_ID
+					where type like 'SELLLIMIT'
 					 and positions.id is null
-					 and orders.price < @lastCandleClose;
-					insert into positions (id, "Date", "Status", "ORDERS_ID")
-					select NEXT VALUE FOR postion_sequence, @now, @lastCandleClose - price, orders.id
+					 and orders.price > lastClose."Close"
+
+			insert into positions (id, "Date", "Status", "ORDERS_ID")
+				select NEXT VALUE FOR postion_sequence, @now, (lastClose."Close" - price)* 1 / symbols.pips_value, orders.id
 					from orders 
 					left join positions on positions.id = orders.id
+					JOIN (SELECT "close", 
+                                      symbols_id 
+                               FROM   candles 
+                                      JOIN (SELECT Max(id) last_id 
+                                            FROM   candles 
+                                            GROUP  BY symbols_id) maxIds 
+                                        ON maxIds.last_id = candles.id) 
+                              lastClose 
+                           ON lastClose.symbols_id = orders.symbols_id 
+					JOIN symbols on symbols.id = orders.SYMBOLS_ID
 					where type like 'BUYSTOP'
 					 and positions.id is null
-					 and orders.price > @lastCandleClose;
+					 and orders.price > lastClose."Close"
+
+					 insert into positions (id, "Date", "Status", "ORDERS_ID")
+				select NEXT VALUE FOR postion_sequence, @now, (lastClose."Close" - price)* 1 / symbols.pips_value, orders.id
+					from orders 
+					left join positions on positions.id = orders.id
+					JOIN (SELECT "close", 
+                                      symbols_id 
+                               FROM   candles 
+                                      JOIN (SELECT Max(id) last_id 
+                                            FROM   candles 
+                                            GROUP  BY symbols_id) maxIds 
+                                        ON maxIds.last_id = candles.id) 
+                              lastClose 
+                           ON lastClose.symbols_id = orders.symbols_id 
+					JOIN symbols on symbols.id = orders.SYMBOLS_ID
+					where type like 'BUYLIMIT'
+					 and positions.id is null
+					 and orders.price < lastClose."Close"
+
 				commit transaction
 			end try
 			begin catch
@@ -235,15 +387,95 @@ begin
 		end;	
 end;
 
+alter procedure execMarketExecution 
+ as 
+	if exists (select * from orders where type in ('BUY', 'SELL'))
+		BEGIN
+			BEGIN TRY
+				BEGIN TRANSACTION
 
+					declare @now datetime;
+					set @now = GETDATE();
+
+				insert into Forex.dbo.positions (id, "Date", "Status", "ORDERS_ID")
+							select NEXT VALUE FOR postion_sequence, @now, (price- lastClose."Close")* 1 / symbols.pips_value, orders.id
+					from orders 
+					left join positions on positions.id = orders.id
+					JOIN (SELECT "close", 
+                                      symbols_id 
+                               FROM   candles 
+                                      JOIN (SELECT Max(id) last_id 
+                                            FROM   candles 
+                                            GROUP  BY symbols_id) maxIds 
+                                        ON maxIds.last_id = candles.id) 
+                              lastClose 
+                           ON lastClose.symbols_id = orders.symbols_id 
+					JOIN symbols on symbols.id = orders.SYMBOLS_ID
+					where type = 'SELL'
+					 and positions.id is null
+
+			insert into positions (id, "Date", "Status", "ORDERS_ID")
+				select NEXT VALUE FOR postion_sequence, @now, (lastClose."Close" - price)* 1 / symbols.pips_value, orders.id
+					from orders 
+					left join positions on positions.id = orders.id
+					JOIN (SELECT "close", 
+                                      symbols_id 
+                               FROM   candles 
+                                      JOIN (SELECT Max(id) last_id 
+                                            FROM   candles 
+                                            GROUP  BY symbols_id) maxIds 
+                                        ON maxIds.last_id = candles.id) 
+                              lastClose 
+                           ON lastClose.symbols_id = orders.symbols_id 
+					JOIN symbols on symbols.id = orders.SYMBOLS_ID
+					where type = 'BUY'
+					 and positions.id is null
+
+					 COMMIT TRANSACTION
+				END TRY
+				BEGIN CATCH
+					rollback transaction;
+					print 'could not open orders';
+					throw;
+				END CATCH
+			END
+
+	
+
+
+  create TRIGGER UpdatePositionsTrigger
+  ON candles
+  AFTER INSERT
+  AS
+  begin
+  exec execStopAndLimits
+  exec UpdatePositions
+  end
+  go
+
+  alter TRIGGER MarketExecutionTrigger
+  ON [dbo].orders
+  FOR INSERT, UPDATE 
+  AS
+  begin
+  exec execMarketExecution
+  end
+
+
+
+
+delete  from positions
 exec fillSymbolsAndIntervals
-exec fillCandles 'EURUSD', 'M1', 'C:\Users\barto\Downloads\EURUSD_Candlestick_1_m_BID_30.03.2019-30.03.2019.csv'
+exec fillCandles 'EURUSD', 'M1', 'C:\Users\barto\Downloads\dane\EURUSD_Candlestick_1_m_BID_29.04.2016-27.04.2019.csv'
+exec fillCandles 'JPYUSD', 'M1', 'C:\Users\barto\Downloads\dane\USDJPY_Candlestick_1_m_BID_29.04.2016-27.04.2019.csv'
+exec fillCandles 'XAUUSD', 'M1', 'C:\Users\barto\Downloads\dane\XAUUSD_Candlestick_1_m_BID_27.04.2016-27.04.2019.csv'
+exec fillCandles 'NAS100', 'M1', 'C:\Users\barto\Downloads\dane\USA500.IDXUSD_Candlestick_1_m_BID_27.04.2016-27.04.2019.csv'
 exec [fillUsers]
 exec [fillAccounts]
 DECLARE @tmp DATETIME
 SET @tmp = GETDATE()
-exec makeOrder 'BUYSTOP', @tmp, 1.0000, 5.0000, 1, 'EURUSD', 1.3789
+exec makeOrder 'BUY', @tmp, 1.0000, 5.0000, 1, 'EURUSD', null
 SET IDENTITY_INSERT positions ON
 exec execStopAndLimits
-
-
+exec UpdatePositions
+select * from positions

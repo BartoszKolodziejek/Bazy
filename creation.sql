@@ -2,7 +2,9 @@
 --   at:        2019-04-01 20:35:52 CEST
 --   site:      SQL Server 2012
 --   type:      SQL Server 2012
-
+use msdb;
+drop database Forex;
+create database Forex;
 use Forex;
 
 CREATE TABLE accounts (
