@@ -169,6 +169,7 @@ SELECT  @lastCandleClose = "Close"
          JOIN (SELECT Max(id) 
          last_id 
          FROM   candles 
+		 where candles.INTERVALS_ID = 8
          GROUP  BY symbols_id) 
          maxIds 
          ON maxIds.last_id = candles.id
@@ -204,6 +205,7 @@ AS
                                                          JOIN (SELECT Max(id) 
                                                               last_id 
                                                                FROM   candles 
+															   where candles.INTERVALS_ID = 8
                                                  GROUP  BY symbols_id) 
                                                               maxIds 
                                                            ON maxIds.last_id = 
@@ -227,6 +229,7 @@ AS
                                                          JOIN (SELECT Max(id) 
                                                               last_id 
                                                                FROM   candles 
+															   where candles.INTERVALS_ID = 8
                                                  GROUP  BY symbols_id) 
                                                               maxIds 
                                                            ON maxIds.last_id = 
@@ -253,6 +256,7 @@ AS
                                FROM   candles 
                                       JOIN (SELECT Max(id) last_id 
                                             FROM   candles 
+											where candles.INTERVALS_ID = 8
                                             GROUP  BY symbols_id) maxIds 
                                         ON maxIds.last_id = candles.id) 
                               lastClose 
@@ -276,6 +280,7 @@ AS
                                FROM   candles 
                                       JOIN (SELECT Max(id) last_id 
                                             FROM   candles 
+											where candles.INTERVALS_ID = 8
                                             GROUP  BY symbols_id) maxIds 
                                         ON maxIds.last_id = candles.id) 
                               lastClose 
@@ -321,6 +326,7 @@ begin
                                FROM   candles 
                                       JOIN (SELECT Max(id) last_id 
                                             FROM   candles 
+											where candles.INTERVALS_ID = 8
                                             GROUP  BY symbols_id) maxIds 
                                         ON maxIds.last_id = candles.id) 
                               lastClose 
@@ -340,6 +346,7 @@ begin
                                FROM   candles 
                                       JOIN (SELECT Max(id) last_id 
                                             FROM   candles 
+											where candles.INTERVALS_ID = 8
                                             GROUP  BY symbols_id) maxIds 
                                         ON maxIds.last_id = candles.id) 
                               lastClose 
@@ -358,6 +365,7 @@ begin
                                FROM   candles 
                                       JOIN (SELECT Max(id) last_id 
                                             FROM   candles 
+											where candles.INTERVALS_ID = 8
                                             GROUP  BY symbols_id) maxIds 
                                         ON maxIds.last_id = candles.id) 
                               lastClose 
@@ -376,6 +384,7 @@ begin
                                FROM   candles 
                                       JOIN (SELECT Max(id) last_id 
                                             FROM   candles 
+											where candles.INTERVALS_ID = 8
                                             GROUP  BY symbols_id) maxIds 
                                         ON maxIds.last_id = candles.id) 
                               lastClose 
@@ -414,6 +423,7 @@ alter procedure execMarketExecution
                                FROM   candles 
                                       JOIN (SELECT Max(id) last_id 
                                             FROM   candles 
+											where candles.INTERVALS_ID = 8
                                             GROUP  BY symbols_id) maxIds 
                                         ON maxIds.last_id = candles.id) 
                               lastClose 
@@ -431,6 +441,7 @@ alter procedure execMarketExecution
                                FROM   candles 
                                       JOIN (SELECT Max(id) last_id 
                                             FROM   candles 
+											where candles.INTERVALS_ID = 8
                                             GROUP  BY symbols_id) maxIds 
                                         ON maxIds.last_id = candles.id) 
                               lastClose 
@@ -547,6 +558,7 @@ CREATE TABLE candlesNoIndexes
 
 	 insert into candlesNoIndexes (low, high, "Open", "Close", "Date", "SYMBOLS_ID", "INTERVALS_ID") select low, high, "Open", "Close", "Date", "SYMBOLS_ID", "INTERVALS_ID" from  candles
 
+	 select * from candles
 ---clustered indexes
 DECLARE @now DATETIME
 SET @now = GETDATE()
@@ -559,6 +571,7 @@ select NEXT VALUE FOR postion_sequence, @now, (lastClose."Close" - price)* 1 / s
                                FROM   candles 
                                       JOIN (SELECT Max(id) last_id 
                                             FROM   candles 
+											where candles.INTERVALS_ID = 8
                                             GROUP  BY symbols_id) maxIds 
                                         ON maxIds.last_id = candles.id) 
                               lastClose 
@@ -572,7 +585,8 @@ select NEXT VALUE FOR postion_sequence, @now, (lastClose."Close" - price)* 1 / s
                                       symbols_id 
                                FROM   candlesNoIndexes 
                                       JOIN (SELECT Max(id) last_id 
-                                            FROM   candlesNoIndexes 
+                                            FROM   candlesNoIndexes
+											where candlesNoIndexes.INTERVALS_ID = 8 
                                             GROUP  BY symbols_id) maxIds 
                                         ON maxIds.last_id = candlesNoIndexes.id) 
                               lastClose 
