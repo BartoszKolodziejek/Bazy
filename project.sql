@@ -533,3 +533,53 @@ SET IDENTITY_INSERT orders OFF
 exec execStopAndLimits
 exec UpdatePositions
 use Forex
+
+CREATE TABLE candlesNoIndexes
+    (
+    id        INTEGER NOT NULL IDENTITY(1,1),
+    low       decimal (20, 5),
+    high      decimal (20, 5),
+    "Open"    decimal (20, 5),
+    "Close"   decimal (20, 5),
+     Date DATETIME , 
+     SYMBOLS_ID INTEGER NOT NULL , 
+     INTERVALS_ID INTEGER NOT NULL );
+
+	 insert into candlesNoIndexes (low, high, "Open", "Close", "Date", "SYMBOLS_ID", "INTERVALS_ID") select low, high, "Open", "Close", "Date", "SYMBOLS_ID", "INTERVALS_ID" from  candles
+
+---clustered indexes
+DECLARE @now DATETIME
+SET @now = GETDATE()
+SET STATISTICS IO, TIME ON 
+select NEXT VALUE FOR postion_sequence, @now, (lastClose."Close" - price)* 1 / symbols.pips_value, orders.id
+					from orders 
+					left join positions on positions.ORDERS_ID = orders.id
+					JOIN (SELECT "close", 
+                                      symbols_id 
+                               FROM   candles 
+                                      JOIN (SELECT Max(id) last_id 
+                                            FROM   candles 
+                                            GROUP  BY symbols_id) maxIds 
+                                        ON maxIds.last_id = candles.id) 
+                              lastClose 
+                           ON lastClose.symbols_id = orders.symbols_id 
+					JOIN symbols on symbols.id = orders.SYMBOLS_ID
+
+select NEXT VALUE FOR postion_sequence, @now, (lastClose."Close" - price)* 1 / symbols.pips_value, orders.id
+					from orders 
+					left join positions on positions.ORDERS_ID = orders.id
+					JOIN (SELECT "close", 
+                                      symbols_id 
+                               FROM   candlesNoIndexes 
+                                      JOIN (SELECT Max(id) last_id 
+                                            FROM   candlesNoIndexes 
+                                            GROUP  BY symbols_id) maxIds 
+                                        ON maxIds.last_id = candlesNoIndexes.id) 
+                              lastClose 
+                           ON lastClose.symbols_id = orders.symbols_id 
+					JOIN symbols on symbols.id = orders.SYMBOLS_ID
+SET STATISTICS IO, TIME ON 
+select max("Close") from candles
+select max("Close") from candlesNoIndexes
+CREATE NONCLUSTERED INDEX NON_CLUSTERED_CLOSE ON candles("Close")
+
