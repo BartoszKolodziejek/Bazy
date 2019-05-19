@@ -658,8 +658,28 @@ FOR VALUES(
 	 '20170101',
 	 '20180101'
 	 '20190101');
-GO								    
-	
+GO	
+								    
+								    
+CREATE PARTITION SCHEME schemePartionByYear 
+    AS PARTITION partByYear
+    ALL TO ([PRIMARY])
+GO
+
+SELECT *
+INTO dbo.AccountsPartitioned
+FROM dbo.Accounts
+GO
+
+
+CREATE UNIQUE CLUSTERED INDEX idxAccounts
+    on dbo.Accounts ([Date Key])
+GO
+ 
+CREATE UNIQUE CLUSTERED INDEX idxAccountsPartitioned
+ on dbo.AccountsPartitioned ([Date Key])
+ON schemePartionByYear ([Date Key])
+GO	
 	
 							    
 
