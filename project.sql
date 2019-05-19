@@ -680,6 +680,21 @@ CREATE UNIQUE CLUSTERED INDEX idxAccountsPartitioned
  on dbo.AccountsPartitioned ([Date Key])
 ON schemePartionByYear ([Date Key])
 GO	
-	
+
+								    
+SELECT *
+INTO dbo.OrdersPartitioned
+FROM dbo.Orders
+GO
+
+
+CREATE UNIQUE CLUSTERED INDEX idxOrders
+    on dbo.Orders ([Date Key])
+GO
+ 
+CREATE UNIQUE CLUSTERED INDEX idxOrdersPartitioned
+ on dbo.OrdersPartitioned ([Date Key])
+ON schemePartionByYear ([Date Key])
+GO
 							    
 
