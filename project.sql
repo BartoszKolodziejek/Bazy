@@ -647,7 +647,18 @@ SELECT	ca.id,
 FROM	candles AS ca JOIN
 		symbols AS sy ON sy.id = ca.symbols_id
 WHERE	ca.date >=	CONVERT(datetime,'05/01/2016',101);
-		
+	
+CREATE PARTITION FUNCTION partByYear(date) 
+AS RANGE RIGHT 
+FOR VALUES(
+     '20130101',
+     '20140101',
+     '20150101',
+     '20160101',
+	 '20170101',
+	 '20180101'
+	 '20190101');
+GO								    
 	
 	
 							    
