@@ -608,7 +608,7 @@ SELECT 	us.id,
 		ac.balance, 
 		ac.currency
 FROM users AS us  JOIN
-	 accounts AS ac ON us.id = ac.id
+	 accounts AS ac ON us.id = ac.user_id
 WHERE ac.balance >= 2500
 ORDER BY ac.balance;
 GO
@@ -626,9 +626,29 @@ SELECT	ac.id,
 	    od.type,
 	    od.price,
 FROM	accounts AS ac JOIN
-		orders AS od ON ac.id = od.id
+		orders AS od ON ac.id = od.accounts_id
 WHERE	od.date >= CONVERT(datetime,'05/01/2015',101);
 
 CREATE UNIQUE CLUSTERED INDEX index_v_vOrders 
-    ON vOrders (type, price);								    
+    ON vOrders (type, price);
+	
+
+CREATE VIEW vCandles
+WITH SCHEMABINDING
+AS
+SELECT	ca.id,
+		ca.low,
+		ca.high,
+		ca."open",
+		ca."close",
+		ca.date,
+		sy.id,
+		sy.name		
+FROM	candles AS ca JOIN
+		symbols AS sy ON sy.id = ca.symbols_id
+WHERE	ca.date >=	CONVERT(datetime,'05/01/2016',101);
+		
+	
+	
+							    
 
