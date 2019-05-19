@@ -596,4 +596,39 @@ SET STATISTICS IO, TIME ON
 select max("Close") from candles
 select max("Close") from candlesNoIndexes
 CREATE NONCLUSTERED INDEX NON_CLUSTERED_CLOSE ON candles("Close")
+								 
+								    
+CREATE VIEW vBalance
+WITH SCHEMABINDING
+AS
+SELECT 	us.id, 
+		us.name, 
+		us.last_name, 
+		us.nationality, 
+		ac.balance, 
+		ac.currency
+FROM users AS us  JOIN
+	 accounts AS ac ON us.id = ac.id
+WHERE ac.balance >= 2500
+ORDER BY ac.balance;
+GO
+
+CREATE UNIQUE CLUSTERED INDEX index_v_vBalance
+    ON vBalance (balance, currency);
+		
+		
+CREATE VIEW vOrders
+WITH SCHEMABINDING
+AS
+SELECT	ac.id,
+	    ac.currency,
+	    od.id,
+	    od.type,
+	    od.price,
+FROM	accounts AS ac JOIN
+		orders AS od ON ac.id = od.id
+WHERE	od.date >= CONVERT(datetime,'05/01/2015',101);
+
+CREATE UNIQUE CLUSTERED INDEX index_v_vOrders 
+    ON vOrders (type, price);								    
 
