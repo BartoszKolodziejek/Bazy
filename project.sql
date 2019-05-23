@@ -607,10 +607,9 @@ SELECT 	us.id,
 		us.nationality, 
 		ac.balance, 
 		ac.currency
-FROM users AS us  JOIN
-	 accounts AS ac ON us.id = ac.user_id
-WHERE ac.balance >= 2500
-ORDER BY ac.balance;
+FROM dbo.users AS us  JOIN
+	 dbo.accounts AS ac ON us.id = ac.user_id
+WHERE ac.balance >= 2500;
 GO
 
 CREATE UNIQUE CLUSTERED INDEX index_v_vBalance
@@ -620,13 +619,13 @@ CREATE UNIQUE CLUSTERED INDEX index_v_vBalance
 CREATE VIEW vOrders
 WITH SCHEMABINDING
 AS
-SELECT	ac.id,
+SELECT	ac.id accounts_id,
 	    ac.currency,
-	    od.id,
+	    od.id orders_id,
 	    od.type,
-	    od.price,
-FROM	accounts AS ac JOIN
-		orders AS od ON ac.id = od.accounts_id
+	    od.price
+FROM	dbo.accounts AS ac JOIN
+		dbo.orders AS od ON ac.id = od.accounts_id
 WHERE	od.date >= CONVERT(datetime,'05/01/2015',101);
 
 CREATE UNIQUE CLUSTERED INDEX index_v_vOrders 
@@ -636,16 +635,16 @@ CREATE UNIQUE CLUSTERED INDEX index_v_vOrders
 CREATE VIEW vCandles
 WITH SCHEMABINDING
 AS
-SELECT	ca.id,
+SELECT	ca.id candles_id,
 		ca.low,
 		ca.high,
 		ca."open",
 		ca."close",
 		ca.date,
-		sy.id,
+		sy.id symbols_id,
 		sy.name		
-FROM	candles AS ca JOIN
-		symbols AS sy ON sy.id = ca.symbols_id
+FROM	dbo.candles AS ca JOIN
+		dbo.symbols AS sy ON sy.id = ca.symbols_id
 WHERE	ca.date >=	CONVERT(datetime,'05/01/2016',101);
 	
 CREATE PARTITION FUNCTION partByYear(date) 
@@ -673,12 +672,12 @@ GO
 
 
 CREATE UNIQUE CLUSTERED INDEX idxAccounts
-    on dbo.Accounts ([Date Key])
+    on dbo.Accounts (Date)
 GO
  
 CREATE UNIQUE CLUSTERED INDEX idxAccountsPartitioned
- on dbo.AccountsPartitioned ([Date Key])
-ON schemePartionByYear ([Date Key])
+ on dbo.AccountsPartitioned (Date)
+ON schemePartionByYear (Date)
 GO	
 
 								    
@@ -689,12 +688,11 @@ GO
 
 
 CREATE UNIQUE CLUSTERED INDEX idxOrders
-    on dbo.Orders ([Date Key])
+    on dbo.Orders (Date)
 GO
  
 CREATE UNIQUE CLUSTERED INDEX idxOrdersPartitioned
- on dbo.OrdersPartitioned ([Date Key])
-ON schemePartionByYear ([Date Key])
-GO
-							    
+ on dbo.OrdersPartitioned (Date)
+ON schemePartionByYear (Date)
+GO						    
 
