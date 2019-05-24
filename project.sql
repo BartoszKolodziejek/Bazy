@@ -608,7 +608,7 @@ SELECT 	us.id,
 		ac.balance, 
 		ac.currency
 FROM dbo.users AS us  JOIN
-	 dbo.accounts AS ac ON us.id = ac.user_id
+	 dbo.accounts AS ac ON us.id = ac.users_id
 WHERE ac.balance >= 2500;
 GO
 
@@ -666,17 +666,17 @@ CREATE PARTITION SCHEME schemePartionByYear
 GO
 
 SELECT *
-INTO dbo.AccountsPartitioned
-FROM dbo.Accounts
+INTO dbo.CandlesPartitioned
+FROM dbo.Candles
 GO
 
 
-CREATE UNIQUE CLUSTERED INDEX idxAccounts
-    on dbo.Accounts (Date)
+CREATE UNIQUE CLUSTERED INDEX idxCandles
+    on dbo.Candles (Date)
 GO
  
-CREATE UNIQUE CLUSTERED INDEX idxAccountsPartitioned
- on dbo.AccountsPartitioned (Date)
+CREATE UNIQUE CLUSTERED INDEX idxCandlesPartitioned
+ on dbo.CandlesPartitioned (Date)
 ON schemePartionByYear (Date)
 GO	
 
@@ -694,5 +694,4 @@ GO
 CREATE UNIQUE CLUSTERED INDEX idxOrdersPartitioned
  on dbo.OrdersPartitioned (Date)
 ON schemePartionByYear (Date)
-GO						    
-
+GO	
